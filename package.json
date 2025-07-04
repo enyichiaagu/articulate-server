@@ -1,0 +1,32 @@
+{
+	"name": "articulate-server",
+	"version": "0.0.1",
+	"description": "",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"dev": "tsx watch src/index",
+		"build": "tsc",
+		"start": "node dist/index"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/enyichiaagu/articulate-server.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/enyichiaagu/articulate-server/issues"
+	},
+	"homepage": "https://articulate.ink",
+	"dependencies": {
+		"dotenv": "^17.0.1",
+		"express": "^5.1.0"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.3",
+		"@types/node": "^24.0.10",
+		"tsx": "^4.20.3"
+	}
+}
