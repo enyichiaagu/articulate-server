@@ -3,9 +3,9 @@
 	"version": "0.0.1",
 	"description": "",
 	"type": "module",
-	"main": "index.js",
+	"main": "dist/index.js",
 	"scripts": {
-		"dev": "tsx watch src/index",
+		"dev": "tsx --watch src/index",
 		"build": "tsc",
 		"start": "node dist/index"
 	},
@@ -21,12 +21,18 @@
 	},
 	"homepage": "https://articulate.ink",
 	"dependencies": {
+		"@mendable/firecrawl-js": "^1.29.1",
 		"dotenv": "^17.0.1",
-		"express": "^5.1.0"
+		"express": "^5.1.0",
+		"helmet": "^8.1.0",
+		"morgan": "^1.10.0",
+		"zod": "^3.25.74"
 	},
 	"devDependencies": {
 		"@types/express": "^5.0.3",
+		"@types/morgan": "^1.9.10",
 		"@types/node": "^24.0.10",
-		"tsx": "^4.20.3"
+		"tsx": "^4.20.3",
+		"typescript": "^5.8.3"
 	}
 }
