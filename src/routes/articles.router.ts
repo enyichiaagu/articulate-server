@@ -24,10 +24,21 @@ articlesRouter.get("/:docId", async (req, res) => {
 	}
 
 	try {
-		const pdfBuffer = await convertMarkdownToPdf(
-			article.body,
-			article.title
-		);
+		const pdfBuffer = await convertMarkdownToPdf(article.body, {
+			title: article.title,
+			subtitle: article.description || "",
+			author: article.author,
+			authorAvatar: article.author_avatar || "",
+			// make the date human readable according to the converted_lang of the article
+			publicationDate: new Date(article.created_at).toLocaleDateString(
+				article.converted_lang,
+				{
+					year: "numeric",
+					month: "long",
+					day: "numeric",
+				}
+			),
+		});
 
 		res.setHeader("Content-Type", "application/pdf");
 		res.setHeader(
