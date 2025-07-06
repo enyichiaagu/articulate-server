@@ -22,10 +22,12 @@
 	"homepage": "https://articulate.ink",
 	"dependencies": {
 		"@mendable/firecrawl-js": "^1.29.1",
+		"@supabase/supabase-js": "^2.50.3",
 		"dotenv": "^17.0.1",
 		"express": "^5.1.0",
 		"helmet": "^8.1.0",
 		"morgan": "^1.10.0",
+		"nanoid": "^5.1.5",
 		"zod": "^3.25.74"
 	},
 	"devDependencies": {
