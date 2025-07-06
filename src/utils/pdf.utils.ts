@@ -1,11 +1,9 @@
 import { marked } from "marked";
 import puppeteer from "puppeteer";
 
-export const convertMarkdownToPdf = async (
-	markdown: string,
-	title: string
-): Promise<Buffer> => {
+export const convertMarkdownToPdf = async (markdown: string, title: string) => {
 	const html = marked(markdown);
+	console.log("Converted PDF to Markdown");
 
 	const styledHtml = `
 		<!DOCTYPE html>
@@ -53,17 +51,21 @@ export const convertMarkdownToPdf = async (
 		</body>
 		</html>
 	`;
+	console.log("Generated HTML Styles");
+	try {
+		const browser = await puppeteer.launch({ headless: true });
+		const page = await browser.newPage();
+		await page.setContent(styledHtml);
 
-	const browser = await puppeteer.launch({ headless: true });
-	const page = await browser.newPage();
-	await page.setContent(styledHtml);
+		const pdf = await page.pdf({
+			format: "A4",
+			margin: { top: "1in", right: "1in", bottom: "1in", left: "1in" },
+			printBackground: true,
+		});
 
-	const pdf = await page.pdf({
-		format: "A4",
-		margin: { top: "1in", right: "1in", bottom: "1in", left: "1in" },
-		printBackground: true,
-	});
-
-	await browser.close();
-	return pdf;
+		await browser.close();
+		return pdf;
+	} catch (error) {
+		console.log("Error generating PDF:", error);
+	}
 };
