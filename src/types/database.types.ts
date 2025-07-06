@@ -14,10 +14,12 @@ export type Database = {
           author: string
           author_avatar: string | null
           body: string
+          converted_lang: string
           created_at: string
           description: string | null
           doc_id: string
           id: string
+          original_lang: string
           original_url: string
           published_at: string | null
           title: string
@@ -27,10 +29,12 @@ export type Database = {
           author: string
           author_avatar?: string | null
           body: string
+          converted_lang: string
           created_at?: string
           description?: string | null
           doc_id: string
           id?: string
+          original_lang: string
           original_url: string
           published_at?: string | null
           title: string
@@ -40,10 +44,12 @@ export type Database = {
           author?: string
           author_avatar?: string | null
           body?: string
+          converted_lang?: string
           created_at?: string
           description?: string | null
           doc_id?: string
           id?: string
+          original_lang?: string
           original_url?: string
           published_at?: string | null
           title?: string
