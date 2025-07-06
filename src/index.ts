@@ -2,9 +2,9 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import "dotenv/config";
-import pingRouter from "./routes/ping.router";
-import translationsRouter from "./routes/translations.router";
-import articlesRouter from "./routes/articles.router";
+import pingRouter from "./routes/ping.router.js";
+import translationsRouter from "./routes/translations.router.js";
+import articlesRouter from "./routes/articles.router.js";
 
 const PORT = process.env.PORT || 5000;
 

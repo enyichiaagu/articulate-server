@@ -5,10 +5,10 @@
 		"rootDir": "src",
 		"outDir": "dist",
 		"strict": true,
-		"module": "commonjs",
-		"moduleResolution": "node",
+		"module": "Node16",
+		"moduleResolution": "node16",
 		"esModuleInterop": true,
 		"skipLibCheck": true,
-		"erasableSyntaxOnly": true
+		"allowSyntheticDefaultImports": true
 	}
 }

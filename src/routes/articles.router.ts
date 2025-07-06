@@ -1,13 +1,14 @@
 import { Router } from "express";
-import supabase from "../services/supabase.services";
+import supabase from "../services/supabase.services.js";
+import { convertMarkdownToPdf } from "../utils/pdf.utils.js";
 
 const articlesRouter = Router();
 
-articlesRouter.get("/:docId/:language", async (req, res) => {
-	const { docId, language } = req.params;
+articlesRouter.get("/:docId", async (req, res) => {
+	const { docId } = req.params;
 
-	if (!docId || !language) {
-		res.status(400).json({ error: "Missing docId or language parameter" });
+	if (!docId) {
+		res.status(400).json({ error: "Missing docId parameter" });
 		return;
 	}
 
@@ -22,10 +23,20 @@ articlesRouter.get("/:docId/:language", async (req, res) => {
 		return;
 	}
 
-	// Check if the article is in the requested language, if so, send the article
-	if (article.original_lang === language) {
-		res.status(200).json({ docId, article });
-		return;
+	try {
+		const pdfBuffer = await convertMarkdownToPdf(
+			article.body,
+			article.title
+		);
+
+		res.setHeader("Content-Type", "application/pdf");
+		res.setHeader(
+			"Content-Disposition",
+			`inline; filename="${article.title}.pdf"`
+		);
+		res.send(pdfBuffer);
+	} catch (pdfError) {
+		res.status(500).json({ error: "Failed to generate PDF" });
 	}
 });
 

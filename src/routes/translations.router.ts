@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { customAlphabet } from "nanoid";
+import { customAlphabet } from "nanoid/non-secure";
 import { z } from "zod";
 import { type ScrapeResponse } from "@mendable/firecrawl-js";
 import TurndownService from "turndown";
-import firecrawl from "../services/firecrawl.services";
-import supabase from "../services/supabase.services";
-import lingoDotDev from "../services/lingo.services";
+import firecrawl from "../services/firecrawl.services.js";
+import supabase from "../services/supabase.services.js";
+import lingoDotDev from "../services/lingo.services.js";
 
 const turndownService = new TurndownService();
 
