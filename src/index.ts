@@ -1,6 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import cors from "cors";
 import "dotenv/config";
 import pingRouter from "./routes/ping.router.js";
 import translationsRouter from "./routes/translations.router.js";
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 app.use(helmet());
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 

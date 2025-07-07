@@ -24,6 +24,7 @@
 		"@mendable/firecrawl-js": "^1.29.1",
 		"@supabase/supabase-js": "^2.50.3",
 		"autumn-js": "^0.0.81",
+		"cors": "^2.8.5",
 		"dotenv": "^17.0.1",
 		"express": "^5.1.0",
 		"helmet": "^8.1.0",
