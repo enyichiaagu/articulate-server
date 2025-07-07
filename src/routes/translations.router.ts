@@ -16,8 +16,9 @@ const schema = z.object({
 	article_subtitle_or_description: z.string(),
 	article_body_as_html_easily_convertible_to_markdown_including_newlines_for_paragraphs:
 		z.string(),
-	author: z.string(),
-	author_avatar_url_if_any_or_empty_string: z.string(),
+	article_author: z.string(),
+	article_author_avatar_url_if_any_or_empty_string: z.string(),
+	cover_photo_url_if_any_or_empty_string: z.string(),
 });
 
 const translationsRouter = Router();
@@ -64,21 +65,33 @@ translationsRouter.post("/", async (req, res) => {
 		);
 		let mdBody = turndownService.turndown(htmlBody);
 
+		const { article_title, article_subtitle_or_description } = result.json;
+		const translatedTitles = await lingoDotDev.localizeObject(
+			{ article_title, article_subtitle_or_description },
+			{
+				sourceLocale: original_lang,
+				targetLocale: converted_lang,
+			}
+		);
+
 		const { data: article, error } = await supabase
 			.from("articles")
 			.insert({
 				doc_id,
-				title: result.json.article_title,
-				description: result.json.article_subtitle_or_description,
-				author: result.json.author,
+				title: translatedTitles.article_title,
+				description: translatedTitles.article_subtitle_or_description,
+				author: result.json.article_author,
 				author_avatar:
-					result.json.author_avatar_url_if_any_or_empty_string,
+					result.json
+						.article_author_avatar_url_if_any_or_empty_string,
 				body: mdBody,
 				published_at: result.metadata?.publishedTime
 					? new Date(result.metadata.publishedTime).toISOString()
 					: null,
 				user: data.userId,
 				original_url: result.metadata?.sourceURL || data.url,
+				cover_photo:
+					result.json.cover_photo_url_if_any_or_empty_string || null,
 				original_lang,
 				converted_lang,
 			})

@@ -47,6 +47,7 @@ articlesRouter.get("/:docId", async (req, res) => {
 		);
 		res.send(pdfBuffer);
 	} catch (pdfError) {
+		console.error("Error generating PDF:", pdfError);
 		res.status(500).json({ error: "Failed to generate PDF" });
 	}
 });

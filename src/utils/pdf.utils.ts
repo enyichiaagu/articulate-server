@@ -22,9 +22,10 @@ export const convertMarkdownToPdf = async (
 		<head>
 			<meta charset="utf-8">
 			<title>${metadata.title}</title>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 			<style>
 				body {
-					font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+					font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 					line-height: 1.6;
 					max-width: 800px;
 					margin: 0 auto;
@@ -125,21 +126,21 @@ export const convertMarkdownToPdf = async (
 				}
 			</style>
 		</head>
-		<body>
+		<body dir="auto">
 			<div class="article-header">
-				<h1 class="article-title">${metadata.title}</h1>
-				${metadata.subtitle ? `<p class="article-subtitle">${metadata.subtitle}</p>` : ""}
+				<h1 class="article-title" dir="auto">${metadata.title}</h1>
+				${metadata.subtitle ? `<p class="article-subtitle" dir="auto">${metadata.subtitle}</p>` : ""}
 				
 				<div class="author-info">
 					${metadata.authorAvatar ? `<img src="${metadata.authorAvatar}" alt="${metadata.author}" class="author-avatar">` : ""}
 					<div class="author-details">
 						<p class="author-name">${metadata.author}</p>
-						<p class="publication-date">${metadata.publicationDate}</p>
+						<p class="publication-date" dir="auto">${metadata.publicationDate}</p>
 					</div>
 				</div>
 			</div>
 			
-			<div class="article-content">
+			<div class="article-content" dir="auto">
 				${html}
 			</div>
 		</body>
@@ -147,39 +148,35 @@ export const convertMarkdownToPdf = async (
 	`;
 	console.log("Generated HTML Styles");
 
-	try {
-		const browser = await puppeteer.launch({
-			headless: true,
-			args: [
-				"--no-sandbox",
-				"--disable-setuid-sandbox",
-				"--disable-web-security",
-			],
-		});
-		const page = await browser.newPage();
-		await page.setContent(styledHtml);
+	const browser = await puppeteer.launch({
+		headless: true,
+		args: [
+			"--no-sandbox",
+			"--disable-setuid-sandbox",
+			"--disable-web-security",
+		],
+	});
+	const page = await browser.newPage();
+	await page.setContent(styledHtml);
 
-		const pdf = await page.pdf({
-			format: "A4",
-			margin: {
-				top: "0.5in",
-				right: "0.5in",
-				bottom: "0.5in",
-				left: "0.5in",
-			},
-			printBackground: true,
-			displayHeaderFooter: true,
-			headerTemplate: "<div></div>",
-			footerTemplate: `
+	const pdf = await page.pdf({
+		format: "A4",
+		margin: {
+			top: "0.5in",
+			right: "0.5in",
+			bottom: "0.5in",
+			left: "0.5in",
+		},
+		printBackground: true,
+		displayHeaderFooter: true,
+		headerTemplate: "<div></div>",
+		footerTemplate: `
 				<div style="font-size: 12px; color: #666; text-align: center; width: 100%;">
 					<span class="pageNumber"></span>
 				</div>
 			`,
-		});
+	});
 
-		await browser.close();
-		return pdf;
-	} catch (error) {
-		console.log("Error generating PDF:", error);
-	}
+	await browser.close();
+	return pdf;
 };
