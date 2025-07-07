@@ -23,23 +23,24 @@
 	"dependencies": {
 		"@mendable/firecrawl-js": "^1.29.1",
 		"@supabase/supabase-js": "^2.50.3",
+		"autumn-js": "^0.0.81",
 		"dotenv": "^17.0.1",
 		"express": "^5.1.0",
 		"helmet": "^8.1.0",
 		"lingo.dev": "^0.105.3",
 		"morgan": "^1.10.0",
 		"nanoid": "^5.1.5",
+		"puppeteer": "^22.3.0",
 		"turndown": "^7.2.0",
-		"zod": "^3.25.74",
-		"puppeteer": "^22.3.0"
+		"zod": "^3.25.74"
 	},
 	"devDependencies": {
 		"@types/express": "^5.0.3",
 		"@types/morgan": "^1.9.10",
 		"@types/node": "^24.0.10",
+		"@types/puppeteer": "^5.4.7",
 		"@types/turndown": "^5.0.5",
 		"tsx": "^4.20.3",
-		"@types/puppeteer": "^5.4.7",
 		"typescript": "^5.8.3"
 	}
 }
