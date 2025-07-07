@@ -16,7 +16,7 @@ const schema = z.object({
 	article_subtitle_or_description: z.string(),
 	article_body_as_html_easily_convertible_to_markdown_including_newlines_for_paragraphs:
 		z.string(),
-	article_author: z.string(),
+	human_fullname_of_article_author_if_none_then_company: z.string(),
 	article_author_avatar_url_if_any_or_empty_string: z.string(),
 	cover_photo_url_if_any_or_empty_string: z.string(),
 });
@@ -38,11 +38,13 @@ translationsRouter.post("/", async (req, res) => {
 	}
 
 	try {
+		console.log("Scraping URL ...");
 		const result = (await firecrawl.scrapeUrl(data.url, {
 			formats: ["json"],
 			jsonOptions: { schema },
 			maxAge: 3_600_000,
 		})) as ScrapeResponse;
+		console.log("Finished Scraping URL");
 
 		if (!result.success) {
 			console.log(result);
@@ -58,11 +60,15 @@ translationsRouter.post("/", async (req, res) => {
 		let doc_id = nanoid();
 		let original_lang = result.metadata?.language || "en";
 		let converted_lang = data.language;
+		console.log(
+			`Converting article from ${original_lang} to ${converted_lang}`
+		);
 		let htmlBody = await lingoDotDev.localizeHtml(
 			result.json
 				.article_body_as_html_easily_convertible_to_markdown_including_newlines_for_paragraphs,
 			{ sourceLocale: original_lang, targetLocale: converted_lang }
 		);
+		console.log(`finished converting article to ${converted_lang}`);
 		let mdBody = turndownService.turndown(htmlBody);
 
 		const { article_title, article_subtitle_or_description } = result.json;
@@ -80,7 +86,8 @@ translationsRouter.post("/", async (req, res) => {
 				doc_id,
 				title: translatedTitles.article_title,
 				description: translatedTitles.article_subtitle_or_description,
-				author: result.json.article_author,
+				author: result.json
+					.human_fullname_of_article_author_if_none_then_company,
 				author_avatar:
 					result.json
 						.article_author_avatar_url_if_any_or_empty_string,
@@ -105,6 +112,7 @@ translationsRouter.post("/", async (req, res) => {
 		}
 
 		res.status(200).json({ doc_id, article });
+		return;
 	} catch (error) {
 		console.log("Server Error", error);
 		res.status(500).json({ error: "Internal server Error" });

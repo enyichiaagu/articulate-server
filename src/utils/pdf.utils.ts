@@ -34,7 +34,7 @@ export const convertMarkdownToPdf = async (
 				}
 				
 				.article-header {
-					text-align: left;
+					text-align: start;
 					margin-bottom: 15px;
 					padding-bottom: 20px;
 				}
@@ -126,7 +126,7 @@ export const convertMarkdownToPdf = async (
 				}
 			</style>
 		</head>
-		<body dir="auto">
+		<body>
 			<div class="article-header">
 				<h1 class="article-title" dir="auto">${metadata.title}</h1>
 				${metadata.subtitle ? `<p class="article-subtitle" dir="auto">${metadata.subtitle}</p>` : ""}
