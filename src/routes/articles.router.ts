@@ -43,7 +43,7 @@ articlesRouter.get("/:docId", async (req, res) => {
 		res.setHeader("Content-Type", "application/pdf");
 		res.setHeader(
 			"Content-Disposition",
-			`inline; filename="${article.title}.pdf"`
+			`inline; filename="${article.doc_id}.pdf"`
 		);
 		res.send(pdfBuffer);
 	} catch (pdfError) {
