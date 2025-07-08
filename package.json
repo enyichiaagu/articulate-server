@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "tsx --watch src/index",
 		"build": "tsc",
-		"start": "tsc && node dist/index"
+		"start": "node dist/index"
 	},
 	"repository": {
 		"type": "git",
