@@ -18,7 +18,7 @@ const schema = z.object({
 		z.string(),
 	human_fullname_of_article_author_if_none_then_company: z.string(),
 	article_author_avatar_url_if_any_or_empty_string: z.string(),
-	cover_photo_url_if_any_or_empty_string: z.string(),
+	article_cover_photo_url_if_any_or_empty_string: z.string(),
 });
 
 const translationsRouter = Router();
@@ -100,7 +100,8 @@ translationsRouter.post("/", async (req, res) => {
 				user: data.userId,
 				original_url: result.metadata?.sourceURL || data.url,
 				cover_photo:
-					result.json.cover_photo_url_if_any_or_empty_string || null,
+					result.json
+						.article_cover_photo_url_if_any_or_empty_string || null,
 				original_lang,
 				converted_lang,
 			})
