@@ -63,22 +63,24 @@ translationsRouter.post("/", async (req, res) => {
 		console.log(
 			`Converting article from ${original_lang} to ${converted_lang}`
 		);
-		let htmlBody = await lingoDotDev.localizeHtml(
-			result.json
-				.article_body_as_html_easily_convertible_to_markdown_including_newlines_for_paragraphs,
-			{ sourceLocale: original_lang, targetLocale: converted_lang }
-		);
-		console.log(`finished converting article to ${converted_lang}`);
-		let mdBody = turndownService.turndown(htmlBody);
-
 		const { article_title, article_subtitle_or_description } = result.json;
-		const translatedTitles = await lingoDotDev.localizeObject(
-			{ article_title, article_subtitle_or_description },
-			{
-				sourceLocale: original_lang,
-				targetLocale: converted_lang,
-			}
-		);
+		const [htmlBody, translatedTitles] = await Promise.all([
+			lingoDotDev.localizeHtml(
+				result.json
+					.article_body_as_html_easily_convertible_to_markdown_including_newlines_for_paragraphs,
+				{ sourceLocale: original_lang, targetLocale: converted_lang }
+			),
+			lingoDotDev.localizeObject(
+				{ article_title, article_subtitle_or_description },
+				{
+					sourceLocale: original_lang,
+					targetLocale: converted_lang,
+				}
+			),
+		]);
+
+		let mdBody = turndownService.turndown(htmlBody);
+		console.log(`finished converting article to ${converted_lang}`);
 
 		const { data: article, error } = await supabase
 			.from("articles")
