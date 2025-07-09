@@ -158,6 +158,7 @@ export const convertMarkdownToPdf = async (
 	});
 	const page = await browser.newPage();
 	await page.setContent(styledHtml);
+	await page.evaluate("document.fonts.ready");
 
 	const pdf = await page.pdf({
 		format: "A4",
