@@ -1,6 +1,15 @@
 import { marked } from "marked";
 import puppeteer from "puppeteer";
 
+const browser = await puppeteer.launch({
+	headless: true,
+	args: [
+		"--no-sandbox",
+		"--disable-setuid-sandbox",
+		"--disable-web-security",
+	],
+});
+
 interface ArticleMetadata {
 	title: string;
 	subtitle?: string;
@@ -21,7 +30,7 @@ export const convertMarkdownToPdf = async (
 	<html>
 	<head>
 	<meta charset="utf-8">
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
 			<title>${metadata.title}</title>
 			<style>
 				body {
@@ -148,14 +157,6 @@ export const convertMarkdownToPdf = async (
 	`;
 	console.log("Generated HTML Styles");
 
-	const browser = await puppeteer.launch({
-		headless: true,
-		args: [
-			"--no-sandbox",
-			"--disable-setuid-sandbox",
-			"--disable-web-security",
-		],
-	});
 	const page = await browser.newPage();
 	await page.setContent(styledHtml);
 
@@ -177,6 +178,5 @@ export const convertMarkdownToPdf = async (
 			`,
 	});
 
-	await browser.close();
 	return pdf;
 };
