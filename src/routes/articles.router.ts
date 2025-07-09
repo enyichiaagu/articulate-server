@@ -19,6 +19,7 @@ articlesRouter.get("/:docId", async (req, res) => {
 		.single();
 
 	if (error) {
+		console.log(error);
 		res.status(404).json({ error: "Article not found" });
 		return;
 	}
