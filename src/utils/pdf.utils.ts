@@ -17,15 +17,15 @@ export const convertMarkdownToPdf = async (
 	console.log("Converted PDF to Markdown");
 
 	const styledHtml = `
-		<!DOCTYPE html>
-		<html>
-		<head>
-			<meta charset="utf-8">
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 			<title>${metadata.title}</title>
-      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 			<style>
 				body {
-					font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+					font-family: 'Noto Sans TC', sans-serif;
 					line-height: 1.6;
 					max-width: 800px;
 					margin: 0 auto;
