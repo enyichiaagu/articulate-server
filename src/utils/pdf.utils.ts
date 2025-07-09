@@ -177,6 +177,6 @@ export const convertMarkdownToPdf = async (
 				</div>
 			`,
 	});
-
+	browser.close();
 	return pdf;
 };
