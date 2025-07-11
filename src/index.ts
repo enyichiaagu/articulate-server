@@ -1,5 +1,6 @@
 import express from "express";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import cors from "cors";
 import "dotenv/config";
@@ -21,6 +22,7 @@ app.use(
 );
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/", docsRouter);
 app.use("/ping", pingRouter);

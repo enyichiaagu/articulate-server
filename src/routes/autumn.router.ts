@@ -1,12 +1,11 @@
+import type { Request } from "express";
 import { autumnHandler } from "autumn-js/express";
 import supabase from "../services/supabase.services.js";
 
 const autumnRouter = autumnHandler({
-	identify: async (req) => {
-		const { data, error } = await supabase.auth.getUser(
-			req.headers.authorization?.replace("Bearer ", "")
-		);
-
+	identify: async (req: Request) => {
+		const token = req.cookies["nora--accessToken"];
+		const { data, error } = await supabase.auth.getUser(token);
 		if (!data?.user || error) return null;
 		return {
 			customerId: data?.user.id,
