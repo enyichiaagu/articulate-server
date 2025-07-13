@@ -4,7 +4,7 @@ import supabase from "../services/supabase.services.js";
 
 const autumnRouter = autumnHandler({
 	identify: async (req: Request) => {
-		const token = req.cookies["nora--accessToken"];
+		const token = req.headers.authorization?.replace("Bearer ", "");
 		const { data, error } = await supabase.auth.getUser(token);
 		if (!data?.user || error) return null;
 		return {
